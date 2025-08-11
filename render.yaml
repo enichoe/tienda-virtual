@@ -4,11 +4,13 @@ services:
     name: tienda-server
     env: node
     plan: free
-      name: tienda-db
-      property: connectionString
     buildCommand: npm install
     startCommand: node server.js
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tienda-db
+          property: connectionString
       - key: CLOUDINARY_CLOUD_NAME
         value: do3b7nz6y
       - key: CLOUDINARY_API_KEY
