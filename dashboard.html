@@ -37,13 +37,42 @@
         .btn-warning {
             background-color: #ffc107;
         }
+
+        /* Estilos para la notificación modal */
+        #notification-modal {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s, top 0.5s;
+        }
+        #notification-modal.show {
+            display: block;
+            top: 50px;
+            opacity: 1;
+        }
+        #notification-modal.success {
+            background-color: #28a745;
+        }
+        #notification-modal.error {
+            background-color: #dc3545;
+        }
     </style>
 </head>
 <body>
+    <div id="notification-modal"></div>
     <header>
         <h1>Panel de Administración</h1>
         <nav>
-            <a href="/" class="btn">Ver Tienda</a>
+            <a href="/tienda.html" class="btn">Ver Tienda</a>
             <a href="#" id="logout-btn" class="btn btn-danger">Cerrar Sesión</a>
         </nav>
     </header>
@@ -110,6 +139,17 @@
             const closeModalBtn = document.getElementById('close-modal');
             const productForm = document.getElementById('product-form');
             const modalTitle = document.getElementById('modal-title');
+            const notificationModal = document.getElementById('notification-modal');
+
+            function showNotification(message, type = 'success') {
+                notificationModal.textContent = message;
+                notificationModal.className = type; // 'success' o 'error'
+                notificationModal.classList.add('show');
+
+                setTimeout(() => {
+                    notificationModal.classList.remove('show');
+                }, 3000); // Ocultar después de 3 segundos
+            }
 
             async function fetchAndDisplayProducts() {
                 try {
@@ -175,13 +215,18 @@
                 if (target.classList.contains('delete-btn')) {
                     if (confirm(`¿Estás seguro de que quieres eliminar el producto con ID ${id}?`)) {
                         try {
-                            await fetch(`/api/admin/productos/${id}`, {
+                            const response = await fetch(`/api/admin/productos/${id}`, {
                                 method: 'DELETE',
                                 headers: { 'Authorization': `Bearer ${token}` }
                             });
+                            if (!response.ok) {
+                                const err = await response.json();
+                                throw new Error(err.message);
+                            }
+                            showNotification('Producto eliminado exitosamente.', 'success');
                             fetchAndDisplayProducts();
                         } catch (error) {
-                            alert('Error al eliminar: ' + error.message);
+                            showNotification('Error al eliminar: ' + error.message, 'error');
                         }
                     }
                 }
@@ -193,9 +238,13 @@
                         });
                         const products = await response.json();
                         const product = products.find(p => p.id == id);
-                        openModalForEdit(product);
+                        if (product) {
+                            openModalForEdit(product);
+                        } else {
+                            throw new Error('Producto no encontrado.');
+                        }
                     } catch (error) {
-                        alert('Error al cargar datos para editar: ' + error.message);
+                        showNotification('Error al cargar datos: ' + error.message, 'error');
                     }
                 }
             });
@@ -232,9 +281,11 @@
                     }
 
                     modal.style.display = 'none';
+                    const successMessage = id ? 'Producto actualizado exitosamente.' : 'Producto agregado exitosamente.';
+                    showNotification(successMessage, 'success');
                     fetchAndDisplayProducts();
                 } catch (error) {
-                    alert('Error al guardar: ' + error.message);
+                    showNotification('Error al guardar: ' + error.message, 'error');
                 }
             });
 

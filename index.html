@@ -1,27 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Store</title>
+    <title>Bienvenido a Nuestra Tienda</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .hero {
+            background: #333;
+            color: #fff;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .btn-main {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-main:hover {
+            background: #e0a800;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            margin-left: 1rem;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .content-section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        .about-us {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <header style="display: flex; justify-content: space-between; align-items: center;">
-        <h1>My Store</h1>
-        <a href="/cart.html" style="color: white; text-decoration: none; padding-right: 2rem;">
-            <span id="cart-icon">🛒</span>
-            <span id="cart-count">0</span>
-        </a>
+    <header class="hero">
+        <h1>Nuestra Empresa</h1>
+        <p>Calidad y confianza en cada producto que ofrecemos.</p>
+        <div>
+            <a href="/tienda.html" class="btn-main">Ver Tienda</a>
+            <a href="/login.html" class="btn-main btn-secondary">Acceso Admin</a>
+        </div>
     </header>
-    <main id="product-list">
-        <!-- Products will be loaded here by JavaScript -->
+
+    <main>
+        <section class="content-section">
+            <h2>Sobre Nosotros</h2>
+            <div class="about-us">
+                <p>
+                    Somos una empresa dedicada a ofrecer los mejores productos del mercado, con un enfoque en la calidad, la innovación y la satisfacción del cliente. Desde nuestros inicios, hemos trabajado para construir una marca en la que puedas confiar.
+                </p>
+                <p>
+                    Nuestro equipo está compuesto por profesionales apasionados que se esfuerzan por seleccionar cuidadosamente cada artículo de nuestro catálogo. Creemos en el valor de un buen servicio y en la importancia de una experiencia de compra excepcional.
+                </p>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <a href="/login.html" style="display: block; text-align: center; margin: 2rem; color: #888;">Admin Login</a>
+        <p>&copy; 2025 Mi Tienda. Todos los derechos reservados.</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
