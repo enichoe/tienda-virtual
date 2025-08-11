@@ -237,9 +237,20 @@ app.delete('/api/admin/productos/:id', async (req, res) => {
     }
 });
 
+// Middleware para manejar errores de forma centralizada
+// Se asegura de que si algo falla (p. ej. en Multer), se envíe una respuesta JSON.
+app.use((err, req, res, next) => {
+    console.error('Error no manejado:', err);
+    // Si el error tiene un código de estado, úsalo. Si no, es un error interno del servidor.
+    const statusCode = err.statusCode || 500;
+    // Envía una respuesta JSON consistente
+    res.status(statusCode).json({
+        message: err.message || 'Ocurrió un error inesperado en el servidor.'
+    });
+});
+
 
 // 6. Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
-
