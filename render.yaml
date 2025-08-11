@@ -3,8 +3,8 @@
 services:
   # Servicio de Base de Datos PostgreSQL
   - type: db
-    name: tienda-db
-    databaseName: tienda_db # Nombre de la base de datos
+    name: tienda_virtual
+    databaseName: tienda_virtual # Nombre de la base de datos
     user: tienda_user # Nombre de usuario
     plan: free
 
