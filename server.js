@@ -185,12 +185,12 @@ const uploadProduct = multer({ storage: productStorage });
 
 // Agregar un nuevo producto (ahora con subida a Cloudinary)
 app.post('/api/admin/productos', uploadProduct.single('imagen'), async (req, res) => {
-    const { nombre, descripcion, precio } = req.body;
+    const { nombre, descripcion, precio, tipo } = req.body;
     const imagen_url = req.file ? req.file.path : null; // URL segura de Cloudinary
 
     try {
-        const query = 'INSERT INTO productos (nombre, descripcion, precio, imagen_url) VALUES ($1, $2, $3, $4) RETURNING id';
-        const result = await pool.query(query, [nombre, descripcion, precio, imagen_url]);
+        const query = 'INSERT INTO productos (nombre, descripcion, precio, imagen_url, tipo) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+        const result = await pool.query(query, [nombre, descripcion, precio, imagen_url, tipo]);
         res.status(201).json({ message: 'Producto agregado exitosamente.', insertId: result.rows[0].id });
     } catch (err) {
         console.error(err);
@@ -201,7 +201,7 @@ app.post('/api/admin/productos', uploadProduct.single('imagen'), async (req, res
 // Actualizar un producto (ahora con subida a Cloudinary opcional)
 app.put('/api/admin/productos/:id', uploadProduct.single('imagen'), async (req, res) => {
     const { id } = req.params;
-    const { nombre, descripcion, precio, imagen_url_existente } = req.body;
+    const { nombre, descripcion, precio, tipo, imagen_url_existente } = req.body;
     
     let imagen_url = imagen_url_existente;
     if (req.file) {
@@ -209,8 +209,8 @@ app.put('/api/admin/productos/:id', uploadProduct.single('imagen'), async (req, 
     }
 
     try {
-        const query = 'UPDATE productos SET nombre = $1, descripcion = $2, precio = $3, imagen_url = $4 WHERE id = $5';
-        const result = await pool.query(query, [nombre, descripcion, precio, imagen_url, id]);
+        const query = 'UPDATE productos SET nombre = $1, descripcion = $2, precio = $3, imagen_url = $4, tipo = $5 WHERE id = $6';
+        const result = await pool.query(query, [nombre, descripcion, precio, imagen_url, tipo, id]);
         if (result.rowCount === 0) {
             return res.status(404).json({ message: 'Producto no encontrado.' });
         }

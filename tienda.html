@@ -5,8 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Virtual</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos para la notificación modal */
+        #notification-modal {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s, top 0.5s;
+        }
+        #notification-modal.show {
+            display: block;
+            top: 50px;
+            opacity: 1;
+        }
+        #notification-modal.success {
+            background-color: #28a745;
+        }
+        #notification-modal.info {
+            background-color: #17a2b8;
+        }
+    </style>
 </head>
 <body>
+    <div id="notification-modal"></div>
     <header style="display: flex; justify-content: space-between; align-items: center;">
         <div>
             <a href="/" class="btn" style="margin-left: 1rem; background-color: #6c757d;">Inicio</a>
@@ -17,6 +47,9 @@
             <span id="cart-count">0</span>
         </a>
     </header>
+    <div id="filter-container" style="text-align: center; padding: 1rem;">
+        <!-- Filter buttons will be loaded here -->
+    </div>
     <main id="product-list">
         <!-- Products will be loaded here by JavaScript -->
     </main>

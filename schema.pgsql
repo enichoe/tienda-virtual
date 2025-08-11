@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS productos (
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
-    imagen_url VARCHAR(255)
+    imagen_url VARCHAR(255),
+    tipo VARCHAR(100) NOT NULL
 );
 
 -- Crear la tabla de usuarios para el login si no existe
