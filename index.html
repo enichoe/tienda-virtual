@@ -4,100 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido a Nuestra Tienda</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .hero {
-            background: #333;
-            color: #fff;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .btn-main {
-            display: inline-block;
-            background: #ffc107;
-            color: #333;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .btn-main:hover {
-            background: #e0a800;
-        }
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-            margin-left: 1rem;
-        }
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        .content-section {
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-        .content-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-        }
-        .about-us {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
-    <header class="hero">
-        <h1>Nuestra Empresa</h1>
-        <p>Calidad y confianza en cada producto que ofrecemos.</p>
-        <div>
-            <a href="/tienda.html" class="btn-main">Ver Tienda</a>
-            <a href="/login.html" class="btn-main btn-secondary">Acceso Admin</a>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center p-5">
+        <div class="container">
+            <h1 class="display-4">Nuestra Empresa</h1>
+            <p class="lead">Calidad y confianza en cada producto que ofrecemos.</p>
+            <div class="mt-4">
+                <a href="/tienda.html" class="btn btn-warning btn-lg">Ver Tienda</a>
+                <a href="/login.html" class="btn btn-secondary btn-lg ms-2">Acceso Admin</a>
+            </div>
         </div>
     </header>
 
-    <main>
-        <section class="content-section">
+    <!-- Main Content -->
+    <main class="container mt-5">
+        <section class="text-center">
             <h2>Sobre Nosotros</h2>
-            <div class="about-us">
-                <p>
-                    Somos una empresa dedicada a ofrecer los mejores productos del mercado, con un enfoque en la calidad, la innovación y la satisfacción del cliente. Desde nuestros inicios, hemos trabajado para construir una marca en la que puedas confiar.
-                </p>
-                <p>
-                    Nuestro equipo está compuesto por profesionales apasionados que se esfuerzan por seleccionar cuidadosamente cada artículo de nuestro catálogo. Creemos en el valor de un buen servicio y en la importancia de una experiencia de compra excepcional.
-                </p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <p class="lead">
+                        Somos una empresa dedicada a ofrecer los mejores productos del mercado, con un enfoque en la calidad, la innovación y la satisfacción del cliente. Desde nuestros inicios, hemos trabajado para construir una marca en la que puedas confiar.
+                    </p>
+                    <p>
+                        Nuestro equipo está compuesto por profesionales apasionados que se esfuerzan por seleccionar cuidadosamente cada artículo de nuestro catálogo. Creemos en el valor de un buen servicio y en la importancia de una experiencia de compra excepcional.
+                    </p>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Mi Tienda. Todos los derechos reservados.</p>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center p-4 mt-5">
+        <div class="container">
+            <p>&copy; 2025 Mi Tienda. Todos los derechos reservados.</p>
+        </div>
     </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

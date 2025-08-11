@@ -2,19 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const productList = document.getElementById('product-list');
     const cartCountSpan = document.getElementById('cart-count');
     const filterContainer = document.getElementById('filter-container');
-    const notificationModal = document.getElementById('notification-modal');
+    const notificationToastEl = document.getElementById('notification-modal');
+    const notificationToast = new bootstrap.Toast(notificationToastEl);
 
     let allProducts = []; // Almacenar todos los productos
 
     function showNotification(message, type = 'success') {
-        if (!notificationModal) return;
-        notificationModal.textContent = message;
-        notificationModal.className = type; // 'success' o 'info'
-        notificationModal.classList.add('show');
+        const toastBody = notificationToastEl.querySelector('.toast-body');
+        toastBody.textContent = message;
+        
+        // Cambiar color del toast según el tipo
+        notificationToastEl.classList.remove('bg-success', 'bg-info');
+        if (type === 'success') {
+            notificationToastEl.classList.add('bg-success');
+        } else {
+            notificationToastEl.classList.add('bg-info');
+        }
 
-        setTimeout(() => {
-            notificationModal.classList.remove('show');
-        }, 3000); // Ocultar después de 3 segundos
+        notificationToast.show();
     }
 
     // --- Lógica del Carrito ---
@@ -58,24 +63,28 @@ document.addEventListener('DOMContentLoaded', () => {
             displayFilterButtons();
         } catch (error) {
             console.error('Hubo un problema con la operación de fetch:', error);
-            productList.innerHTML = '<p>No se pudieron cargar los productos. Intenta de nuevo más tarde.</p>';
+            productList.innerHTML = '<p class="text-center text-danger">No se pudieron cargar los productos. Intenta de nuevo más tarde.</p>';
         }
     }
 
     function displayProducts(products) {
         productList.innerHTML = '';
         products.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.className = 'product';
-            productDiv.dataset.id = product.id;
-            productDiv.innerHTML = `
-                <img src="${product.imagen_url || 'https://via.placeholder.com/150'}" alt="${product.nombre}">
-                <h2>${product.nombre}</h2>
-                <p class="product-type">${product.tipo}</p>
-                <p class="product-price">$${parseFloat(product.precio).toFixed(2)}</p>
-                <button class="add-to-cart-btn">Add to Cart</button>
+            const productCol = document.createElement('div');
+            productCol.className = 'col';
+            productCol.innerHTML = `
+                <div class="card h-100">
+                    <img src="${product.imagen_url || 'https://via.placeholder.com/300'}" class="card-img-top" alt="${product.nombre}">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">${product.nombre}</h5>
+                        <p class="card-text text-muted">${product.tipo}</p>
+                        <p class="card-text">${product.descripcion || ''}</p>
+                        <p class="card-text fs-5 fw-bold mt-auto">S/.${parseFloat(product.precio).toFixed(2)}</p>
+                        <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                    </div>
+                </div>
             `;
-            productList.appendChild(productDiv);
+            productList.appendChild(productCol);
         });
     }
 
@@ -85,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tipos.forEach(tipo => {
             const button = document.createElement('button');
             button.textContent = tipo;
-            button.className = 'btn filter-btn';
+            button.className = 'btn btn-outline-dark me-2 mb-2';
             button.dataset.tipo = tipo;
             filterContainer.appendChild(button);
         });
@@ -94,13 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Event Listeners ---
     productList.addEventListener('click', (e) => {
         if (e.target.classList.contains('add-to-cart-btn')) {
-            const productId = parseInt(e.target.closest('.product').dataset.id);
+            const productId = parseInt(e.target.dataset.id);
             addToCart(productId);
         }
     });
 
     filterContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('filter-btn')) {
+        if (e.target.classList.contains('btn')) {
             const tipo = e.target.dataset.tipo;
             if (tipo === 'Todos') {
                 displayProducts(allProducts);
