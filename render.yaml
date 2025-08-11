@@ -1,21 +1,14 @@
 # Blueprint para desplegar la tienda virtual en Render
 
 services:
-  # Servicio de Base de Datos PostgreSQL
-  - type: db
-    name: tienda_virtual
-    databaseName: tienda_virtual # Nombre de la base de datos
-    user: tienda_user # Nombre de usuario
-    plan: free
-
   # Servicio Web para la aplicación Node.js
   - type: web
     name: tienda-server
     env: node
     plan: free
-    # Conecta este servicio a la base de datos creada arriba
+    # Conecta este servicio a la base de datos creada abajo
     database:
-      name: tienda-db
+      name: tienda-db # Asegúrate de que este nombre coincida con el nombre de la DB en la sección 'databases'
       property: connectionString # Esto inyecta la URL de la DB en la variable de entorno DATABASE_URL
     
     # Comandos de construcción y arranque
@@ -32,8 +25,16 @@ services:
       - key: CLOUDINARY_API_SECRET
         # ¡IMPORTANTE! Este valor es un secreto y debe ser añadido
         # manualmente en la pestaña "Environment" de tu servicio en Render.
-        value: TU_API_SECRET_DE_CLOUDINARY 
+        sync: false # Indica a Render que este valor no se gestiona automáticamente por el blueprint
       - key: JWT_SECRET
         # Este es otro secreto. Puedes generar una cadena de texto larga y aleatoria
         # y ponerla manualmente en el dashboard de Render.
         generateValue: true # Render generará un valor aleatorio para esto
+
+databases:
+  # Servicio de Base de Datos PostgreSQL
+  - name: tienda-db # Este es el nombre de referencia para tu base de datos
+    databaseName: tienda_db # Nombre de la base de datos dentro de PostgreSQL
+    user: tienda_user # Nombre de usuario para acceder a la base de datos
+    plan: free # Plan de la base de datos
+    # La versión de PostgreSQL será la gestionada por Render, no necesitas especificarla aquí
