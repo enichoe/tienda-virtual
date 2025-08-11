@@ -4,7 +4,7 @@ services:
     name: tienda-server
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm install && psql $DATABASE_URL -f schema.pgsql
     startCommand: node server.js
     envVars:
       - key: DATABASE_URL
