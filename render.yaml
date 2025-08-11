@@ -2,11 +2,11 @@
 
 services:
   # Servicio de Base de Datos PostgreSQL
-  - type: psql
+  - type: db
     name: tienda-db
+    databaseName: tienda_db # Nombre de la base de datos
+    user: tienda_user # Nombre de usuario
     plan: free
-    # Render creará la base de datos con el nombre 'tienda_db' por defecto
-    # La versión de PostgreSQL será la gestionada por Render
 
   # Servicio Web para la aplicación Node.js
   - type: web
