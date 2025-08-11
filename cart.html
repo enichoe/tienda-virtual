@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cart-container { padding: 2rem; max-width: 800px; margin: auto; }
+        .cart-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        .cart-table th, .cart-table td { border: 1px solid #ccc; padding: 0.75rem; text-align: left; }
+        .cart-table th { background-color: #f2f2f2; }
+        .cart-total { text-align: right; margin-top: 1rem; font-size: 1.2em; font-weight: bold; }
+        .btn-checkout { background-color: #28a745; color: white; padding: 1rem; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 1rem; }
+        .btn-danger { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Carrito de Compras</h1>
+    </header>
+    <main class="cart-container">
+        <h2>Tus Productos</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Los items del carrito se cargarán aquí -->
+            </tbody>
+        </table>
+        <div id="cart-total" class="cart-total">
+            <!-- El total se calculará aquí -->
+        </div>
+        <div style="text-align: right;">
+            <a href="/checkout.html" class="btn-checkout">Proceder al Pago</a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsTbody = document.getElementById('cart-items');
+            const cartTotalDiv = document.getElementById('cart-total');
+
+            function getCart() {
+                return JSON.parse(localStorage.getItem('cart')) || [];
+            }
+
+            function saveCart(cart) {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                displayCart();
+            }
+
+            function displayCart() {
+                const cart = getCart();
+                cartItemsTbody.innerHTML = '';
+                let total = 0;
+
+                if (cart.length === 0) {
+                    cartItemsTbody.innerHTML = '<tr><td colspan="3">Tu carrito está vacío.</td></tr>';
+                    cartTotalDiv.textContent = '';
+                    return;
+                }
+
+                cart.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.nombre}</td>
+                        <td>$${parseFloat(item.precio).toFixed(2)}</td>
+                        <td><button class="btn-danger" data-id="${item.id}">Eliminar</button></td>
+                    `;
+                    cartItemsTbody.appendChild(row);
+                    total += parseFloat(item.precio);
+                });
+
+                cartTotalDiv.textContent = `Total: $${total.toFixed(2)}`;
+            }
+
+            cartItemsTbody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-danger')) {
+                    const productId = parseInt(e.target.dataset.id);
+                    let cart = getCart();
+                    cart = cart.filter(item => item.id !== productId);
+                    saveCart(cart);
+                }
+            });
+
+            displayCart();
+        });
+    </script>
+</body>
+</html>

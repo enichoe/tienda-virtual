@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            padding: 2rem;
+        }
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        .product-table th, .product-table td {
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .product-table th {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <a href="/" class="btn">Ver Tienda</a>
+            <a href="#" id="logout-btn" class="btn btn-danger">Cerrar Sesión</a>
+        </nav>
+    </header>
+    <main class="dashboard-container">
+        <h2>Gestionar Productos</h2>
+        <button class="btn">Agregar Nuevo Producto</button>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="dashboard-product-list">
+                <!-- Los productos se cargarán aquí -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Modal para Agregar/Editar Producto -->
+    <div id="product-modal" style="display:none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 5px;">
+            <span id="close-modal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h2 id="modal-title">Agregar Producto</h2>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="form-group">
+                    <label for="nombre">Nombre del Producto</label>
+                    <input type="text" id="nombre" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" rows="3" style="width: 100%; padding: 8px; box-sizing: border-box;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input type="number" id="precio" step="0.01" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen del Producto</label>
+                    <input type="file" id="imagen" accept="image/*" style="width: 100%; padding: 8px; box-sizing: border-box;">
+                    <input type="hidden" id="imagen_url_existente">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Guardar Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const productList = document.getElementById('dashboard-product-list');
+            const logoutBtn = document.getElementById('logout-btn');
+            const addProductBtn = document.querySelector('.dashboard-container .btn');
+            
+            const modal = document.getElementById('product-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const productForm = document.getElementById('product-form');
+            const modalTitle = document.getElementById('modal-title');
+
+            async function fetchAndDisplayProducts() {
+                try {
+                    const response = await fetch('/api/admin/productos', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('token');
+                        window.location.href = '/login.html';
+                        return;
+                    }
+                    const products = await response.json();
+                    productList.innerHTML = '';
+                    products.forEach(product => {
+                        const row = document.createElement('tr');
+                        row.dataset.id = product.id;
+                        row.innerHTML = `
+                            <td>${product.id}</td>
+                            <td>${product.nombre}</td>
+                            <td>$${parseFloat(product.precio).toFixed(2)}</td>
+                            <td>
+                                <button class="btn btn-warning edit-btn">Editar</button>
+                                <button class="btn btn-danger delete-btn">Eliminar</button>
+                            </td>
+                        `;
+                        productList.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                    productList.innerHTML = `<tr><td colspan="4">${error.message}</td></tr>`;
+                }
+            }
+
+            function openModalForEdit(product) {
+                modalTitle.textContent = 'Editar Producto';
+                productForm.reset();
+                productForm['product-id'].value = product.id;
+                productForm.nombre.value = product.nombre;
+                productForm.descripcion.value = product.descripcion;
+                productForm.precio.value = parseFloat(product.precio);
+                productForm.imagen_url_existente.value = product.imagen_url; // Guardar la URL actual
+                modal.style.display = 'block';
+            }
+
+            addProductBtn.addEventListener('click', () => {
+                modalTitle.textContent = 'Agregar Producto';
+                productForm.reset();
+                productForm['product-id'].value = '';
+                modal.style.display = 'block';
+            });
+
+            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+            window.addEventListener('click', (e) => {
+                if (e.target == modal) modal.style.display = 'none';
+            });
+
+            productList.addEventListener('click', async (e) => {
+                const target = e.target;
+                const row = target.closest('tr');
+                if (!row) return;
+                const id = row.dataset.id;
+
+                if (target.classList.contains('delete-btn')) {
+                    if (confirm(`¿Estás seguro de que quieres eliminar el producto con ID ${id}?`)) {
+                        try {
+                            await fetch(`/api/admin/productos/${id}`, {
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Bearer ${token}` }
+                            });
+                            fetchAndDisplayProducts();
+                        } catch (error) {
+                            alert('Error al eliminar: ' + error.message);
+                        }
+                    }
+                }
+
+                if (target.classList.contains('edit-btn')) {
+                    try {
+                        const response = await fetch('/api/admin/productos', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        const products = await response.json();
+                        const product = products.find(p => p.id == id);
+                        openModalForEdit(product);
+                    } catch (error) {
+                        alert('Error al cargar datos para editar: ' + error.message);
+                    }
+                }
+            });
+
+            productForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const id = productForm['product-id'].value;
+                
+                const formData = new FormData();
+                formData.append('nombre', productForm.nombre.value);
+                formData.append('descripcion', productForm.descripcion.value);
+                formData.append('precio', productForm.precio.value);
+                
+                const imagenInput = productForm.imagen;
+                if (imagenInput.files.length > 0) {
+                    formData.append('imagen', imagenInput.files[0]);
+                } else if (id) {
+                    formData.append('imagen_url_existente', productForm.imagen_url_existente.value);
+                }
+
+                const endpoint = id ? `/api/admin/productos/${id}` : '/api/admin/productos';
+                const method = id ? 'PUT' : 'POST';
+
+                try {
+                    const response = await fetch(endpoint, {
+                        method: method,
+                        headers: { 'Authorization': `Bearer ${token}` },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || 'Error en la petición');
+                    }
+
+                    modal.style.display = 'none';
+                    fetchAndDisplayProducts();
+                } catch (error) {
+                    alert('Error al guardar: ' + error.message);
+                }
+            });
+
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
+            });
+
+            fetchAndDisplayProducts();
+        });
+    </script>
+</body>
+</html>
