@@ -4,7 +4,6 @@ services:
     name: tienda-server
     env: node
     plan: free
-    database:
       name: tienda-db
       property: connectionString
     buildCommand: npm install
