@@ -72,15 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
         products.forEach(product => {
             const productCol = document.createElement('div');
             productCol.className = 'col';
+            const isOutOfStock = product.stock <= 0;
             productCol.innerHTML = `
-                <div class="card h-100">
+                <div class="card h-100 ${isOutOfStock ? 'out-of-stock' : ''}">
                     <img src="${product.imagen_url || 'https://via.placeholder.com/300'}" class="card-img-top" alt="${product.nombre}">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">${product.nombre}</h5>
                         <p class="card-text text-muted">${product.tipo}</p>
                         <p class="card-text">${product.descripcion || ''}</p>
                         <p class="card-text fs-5 fw-bold mt-auto">S/.${parseFloat(product.precio).toFixed(2)}</p>
-                        <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                        ${isOutOfStock
+                            ? '<p class="text-danger fw-bold">Producto sin Stock</p>'
+                            : `<button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">Comprar</button>`
+                        }
                     </div>
                 </div>
             `;
@@ -94,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tipos.forEach(tipo => {
             const button = document.createElement('button');
             button.textContent = tipo;
-            button.className = 'btn btn-outline-dark me-2 mb-2';
+            button.className = 'btn btn-primary btn-sm me-2 mb-2';
             button.dataset.tipo = tipo;
             filterContainer.appendChild(button);
         });
@@ -123,4 +127,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Inicialización ---
     updateCartCount();
     fetchProducts();
+
+    // Lógica del Chatbot
+    const chatbotToggler = document.querySelector(".chatbot-toggler");
+    const chatbotContainer = document.querySelector(".chatbot-container");
+
+    if (chatbotToggler) {
+        chatbotToggler.addEventListener("click", () => {
+            const isDisplayed = chatbotContainer.style.display === "flex";
+            chatbotContainer.style.display = isDisplayed ? "none" : "flex";
+        });
+    }
+
+    window.handleChatOption = function(option) {
+        const messagesContainer = document.querySelector(".chatbot-messages");
+        let response = "";
+
+        switch (option) {
+            case 'compra':
+                response = "Para comprar, puedes navegar por nuestros productos y añadirlos al carrito. ¿Necesitas ayuda con algo más?" ;
+                // Opcional: redirigir a la sección de productos
+                // window.location.href = '#product-list';
+                break;
+            case 'reclamo':
+                response = "Lamentamos cualquier inconveniente. Por favor, envíanos un correo a reclamos@mitienda.com y te atenderemos a la brevedad.";
+                break;
+            case 'hablar':
+                response = "Claro, puedes contactarnos al +51 900 000 000. Estaremos encantados de ayudarte.";
+                break;
+            case 'sugerencias':
+                response = "¡Nos encantaría escuchar tus ideas! Escríbenos a sugerencias@mitienda.com.";
+                break;
+        }
+        
+        if(messagesContainer){
+            messagesContainer.innerHTML += `<p style="text-align: right; color: #007bff;">Respondiendo...</p>`;
+            setTimeout(() => {
+                messagesContainer.innerHTML += `<p>${response}</p>`;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+    }
 });

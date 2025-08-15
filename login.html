@@ -27,8 +27,8 @@
                 <h2 class="card-title text-center mb-4">Acceso de Administrador</h2>
                 <form id="login-form">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
-                        <label for="username">Usuario</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico" required>
+                        <label for="email">Correo Electrónico</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
@@ -40,9 +40,7 @@
                 </form>
                 <div id="message" class="text-center mt-3"></div>
                 <hr>
-                <p class="text-center mb-0">
-                    ¿No tienes una cuenta? <a href="register.html">Regístrate aquí</a>
-                </p>
+                
                  <p class="text-center mt-3">
                     <a href="/">Volver al Inicio</a>
                 </p>
@@ -56,7 +54,7 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = form.username.value;
+            const email = form.email.value;
             const password = form.password.value;
             messageEl.textContent = '';
 
@@ -64,7 +62,7 @@
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ email, password })
                 });
 
                 const result = await response.json();

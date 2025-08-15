@@ -3,50 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Nuestra Tienda</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <title>SmartZone 📱</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+
+    
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="bg-dark text-white text-center p-5">
-        <div class="container">
-            <h1 class="display-4">Nuestra Empresa</h1>
-            <p class="lead">Calidad y confianza en cada producto que ofrecemos.</p>
-            <div class="mt-4">
-                <a href="/tienda.html" class="btn btn-warning btn-lg">Ver Tienda</a>
-                <a href="/login.html" class="btn btn-secondary btn-lg ms-2">Acceso Admin</a>
-            </div>
-        </div>
-    </header>
+    
 
-    <!-- Main Content -->
-    <main class="container mt-5">
-        <section class="text-center">
-            <h2>Sobre Nosotros</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <p class="lead">
-                        Somos una empresa dedicada a ofrecer los mejores productos del mercado, con un enfoque en la calidad, la innovación y la satisfacción del cliente. Desde nuestros inicios, hemos trabajado para construir una marca en la que puedas confiar.
-                    </p>
-                    <p>
-                        Nuestro equipo está compuesto por profesionales apasionados que se esfuerzan por seleccionar cuidadosamente cada artículo de nuestro catálogo. Creemos en el valor de un buen servicio y en la importancia de una experiencia de compra excepcional.
-                    </p>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">SmartZone 📱</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#filter-container">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Ofertas</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact-info">Contacto</a></li>
+            </ul>
+        </div>
+        <a href="/cart.html" class="text-white text-decoration-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <span id="cart-count" class="badge bg-danger ms-1">0</span>
+        </a>
+    </div>
+</nav>
+
+    
+ 
+<div id="ofertasCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="d-flex align-items-center justify-content-center carousel-content">
+                <img src="/img/apple-16promax-bt-256gb-01--1-.png" class="carousel-logo-img" alt="Oferta 1">
+                <div class="carousel-description ms-3">
+                    <h5>Black Friday</h5>
+                    <p>Hasta 50% de descuento en una amplia selección de productos de tecnología. ¡No te lo pierdas!</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center p-4 mt-5">
-        <div class="container">
-            <p>&copy; 2025 Mi Tienda. Todos los derechos reservados.</p>
         </div>
-    </footer>
+        <div class="carousel-item">
+            <div class="d-flex align-items-center justify-content-center carousel-content">
+                <img src="/img/laptop.webp" class="carousel-logo-img" alt="Oferta 2">
+                <div class="carousel-description ms-3">
+                    <h5>Promoción del Mes</h5>
+                    <p>20% de descuento adicional con tu tarjeta Visa y hasta 12 meses sin intereses en laptops.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <button class="carousel-control-prev" type="button" data-bs-target="#ofertasCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#ofertasCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<div class="modal fade" id="offerModal" tabindex="-1" aria-labelledby="offerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="offerModalLabel">¡Obtén S/50 Soles en tu Primera Compra! 🎁</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Suscríbete a nuestro boletín y recibe un cupón de **S/50 de descuento** para tu primera compra.</p>
+                <form id="emailSubscribeForm">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Tu correo electrónico" aria-label="Tu correo electrónico" required>
+                        <button class="btn btn-primary" type="submit">Suscribirme</button>
+                    </div>
+                    <small class="text-muted">Válido para nuevas suscripciones. Revisar tu bandeja de entrada o spam.</small>
+                </form>
+                <div id="thankYouMessage" style="display:none;">
+                    <p class="text-success mt-3">¡Gracias por suscribirte! Revisa tu correo electrónico para obtener tu cupón.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Filtros -->
+    <div id="filter-container" class="text-center p-3 bg-light">
+        <!-- Filter buttons will be loaded here -->
+    </div>
+    <div>
+        <!-- Lista de Productos -->
+         
+    <main class="container mt-4">
+        
+        <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+    </main>
+    </div>
+    
+
+    <!-- seccion CONTACTO -->
+    <section id="contact-info" class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row text-center text-md-start">
+
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h4 class="text-primary mb-3">Contáctanos</h4>
+                <p><i class="bi bi-geo-alt-fill me-2"></i> Av. Javier Prado Este 123, San Isidro, Lima, Perú</p>
+                <p><i class="bi bi-phone-fill me-2"></i> +51 987 654 321</p>
+                <p><i class="bi bi-envelope-fill me-2"></i> info@smartzone.com</p>
+            </div>
+
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h4 class="text-primary mb-3">Síguenos</h4>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/tuempresa" target="_blank" class="social-icon me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.instagram.com/tuempresa" target="_blank" class="social-icon me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.twitter.com/tuempresa" target="_blank" class="social-icon me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.linkedin.com/company/tuempresa" target="_blank" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h4 class="text-primary mb-3">Ubícanos</h4>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.3259858564177!2d-77.0378051253457!3d-12.091350642959802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c862d3a339ef%3A0xbef6b0c2a8f8e024!2sAv.%20Javier%20Prado%20Este%20123%2C%20San%20Isidro%2015046!5e0!3m2!1ses-419!2spe!4v1700000000000!5m2!1ses-419!2spe" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <p class="mt-2 fst-italic">Visítanos en nuestra oficina principal.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 SmartZone 📱. Todos los derechos reservados.</p>
+    <a href="/login.html" class="admin-btn"><i class="bi bi-gear-fill"></i> Admin</a>
+</footer>
+    <!-- Chatbot flotante -->
+    <div class="chatbot-toggler">
+        <i class="bi bi-chat-dots-fill"></i>
+    </div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h5>SmartZone 📱 Asistente Virtual</h5>
+        </div>
+        <div class="chatbot-messages">
+            <p>🤖¡Hola! ¿Cómo puedo ayudarte hoy?</p>
+        </div>
+        <div class="chatbot-options p-2">
+            <button onclick="handleChatOption('compra')">Quiero realizar una compra</button>
+            <button onclick="handleChatOption('reclamo')">Tengo un reclamo</button>
+            <button onclick="handleChatOption('hablar')">Necesito hablar con alguien</button>
+            <!-- <button onclick="handleChatOption('sugerencias')">Dame unas sugerencias</button> -->
+        </div>
+    </div>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const offerModal = new bootstrap.Modal(document.getElementById('offerModal'));
+        const emailSubscribeForm = document.getElementById('emailSubscribeForm');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+
+        // Claves para localStorage
+        const MODAL_SHOWN_KEY = 'offerModalShown';
+        const MODAL_CLOSED_KEY = 'offerModalClosed';
+        const MODAL_SUBMITTED_KEY = 'offerModalSubmitted';
+
+        // Duración en milisegundos
+        const INITIAL_DELAY_MS = 15 * 1000; // 15 segundos
+        const REAPPEAR_DELAY_MS = 60 * 1000; // 1 minuto
+
+        function showOfferModal() {
+            // No mostrar si ya se envió el formulario
+            if (localStorage.getItem(MODAL_SUBMITTED_KEY)) {
+                return;
+            }
+
+            // Mostrar el modal
+            offerModal.show();
+            // Marcar que el modal ya se mostró por primera vez
+            localStorage.setItem(MODAL_SHOWN_KEY, 'true');
+            // Eliminar la marca de cierre temporal
+            localStorage.removeItem(MODAL_CLOSED_KEY);
+        }
+
+        // 1. Lógica de temporización para la primera aparición
+        if (!localStorage.getItem(MODAL_SHOWN_KEY) && !localStorage.getItem(MODAL_SUBMITTED_KEY)) {
+            setTimeout(showOfferModal, INITIAL_DELAY_MS);
+        }
+
+        // 2. Lógica para reaparecer después de 1 minuto si se cerró
+        document.getElementById('offerModal').addEventListener('hidden.bs.modal', function () {
+            // Si el formulario no ha sido enviado y el modal no fue "marcado" como ya cerrado para reaparición
+            if (!localStorage.getItem(MODAL_SUBMITTED_KEY) && !localStorage.getItem(MODAL_CLOSED_KEY)) {
+                localStorage.setItem(MODAL_CLOSED_KEY, 'true'); // Marca que se cerró para reaparición
+                setTimeout(showOfferModal, REAPPEAR_DELAY_MS);
+            }
+        });
+
+        // 3. Lógica al enviar el formulario
+        emailSubscribeForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+            // Aquí enviarías los datos del formulario a tu servidor (usando fetch, XMLHttpRequest, jQuery AJAX, etc.)
+            // Por ahora, simularemos un envío exitoso:
+            console.log('Correo electrónico enviado:', this.querySelector('input[type="email"]').value);
+
+            // Ocultar el formulario
+            emailSubscribeForm.style.display = 'none';
+            // Mostrar mensaje de agradecimiento
+            thankYouMessage.style.display = 'block';
+            // Marcar que el formulario ya se envió para que no aparezca más
+            localStorage.setItem(MODAL_SUBMITTED_KEY, 'true');
+
+            // Opcional: Cerrar el modal automáticamente después de unos segundos
+            setTimeout(() => {
+                offerModal.hide();
+            }, 3000); // Cierra después de 3 segundos
+        });
+    });
+</script>
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para cargar productos y filtros -->
+    
+    <script src="script.js"></script>
 </body>
 </html>

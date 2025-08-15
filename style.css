@@ -1,17 +1,440 @@
-/* Estilos generales que se mantienen */
+/* ===== Estilos generales ===== */
 body {
-    font-family: sans-serif;
-    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    /* margin: 0; */
     background-color: #f4f4f4;
+    padding-top: 70px;
 }
 
-/* Estilos para las tarjetas de producto que complementan a Bootstrap */
-.product-card {
-    transition: transform 0.2s;
+
+/* --- Contenedor del Carrusel --- */
+#ofertasCarousel {
+    width: 100%;
+    overflow: hidden;
+    min-height: 250px; /* Altura mínima para el carrusel */
+    display: flex; /* Para centrar el contenido verticalmente */
+    align-items: center; /* Centra verticalmente los ítems */
 }
 
-.product-card:hover {
-    transform: scale(1.05);
+/* Contenido dentro de cada ítem del carrusel */
+#ofertasCarousel .carousel-item {
+    width: 100%;
+    /* No es necesario un min-height aquí, el #ofertasCarousel ya lo define */
 }
 
-/* Se pueden añadir más estilos personalizados aquí si es necesario */
+#ofertasCarousel .carousel-content {
+    /* Estas clases de Bootstrap (d-flex, align-items-center, justify-content-center)
+       ya se encargan de la alineación. Podemos añadir padding aquí. */
+    padding: 60px; /* Espacio alrededor del contenido */
+    text-align: left; /* Alineamos el texto a la izquierda dentro del carrusel-content */
+    color: black; /* Color de texto para que destaque sobre un fondo oscuro */
+    /* Asegúrate de que el contenido no sea demasiado ancho en pantallas muy grandes */
+    max-width: 95%; /* Limita el ancho del bloque de contenido imagen+texto */
+    margin: 0 auto; /* Centra el bloque de contenido */
+    /* background: linear-gradient(135deg, rgba(13, 110, 253, 0.9), rgba(102, 16, 242, 0.9));  */
+}
+
+/* Estilo para la imagen pequeña (logo) */
+.carousel-logo-img {
+    width: 150px;  /* Tamaño fijo para el logo */
+    height: 150px; /* Tamaño fijo para el logo */
+    object-fit: contain; /* Ajusta la imagen DENTRO del espacio, mostrando todo el logo sin recortar */
+    border-radius: 8px; /* Ligeros bordes redondeados para el logo */
+    /* Puede que necesites un borde o fondo para que destaque si tu logo es transparente */
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    /* padding: 5px; */
+}
+
+/* Estilo para la descripción al lado del logo */
+.carousel-description {
+    max-width: 60%; /* Limita el ancho de la descripción para que no sea muy larga */
+}
+
+.carousel-description h5 {
+    font-size: 2.5rem; /* Tamaño del título */
+    margin-bottom: 0.5rem;
+}
+
+.carousel-description p {
+    font-size: 2rem; /* Tamaño del párrafo */
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* --- Ajustes Responsive --- */
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media (max-width: 576px) {
+    #ofertasCarousel .carousel-content {
+        flex-direction: column; /* Apila el logo y la descripción en móviles */
+        text-align: center; /* Centra el texto en móviles */
+        padding: 20px;
+    }
+
+    .carousel-logo-img {
+        margin-bottom: 10px; /* Espacio debajo del logo en móviles */
+        width: 70px; /* Un poco más pequeño en móviles */
+        height: 70px;
+    }
+
+    .carousel-description {
+        margin-left: 0 !important; /* Elimina el margen a la izquierda de Bootstrap */
+        max-width: 90%; /* Ocupa más ancho en móviles */
+    }
+
+    .carousel-description h5 {
+        font-size: 1.2rem;
+    }
+
+    .carousel-description p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Ajustes para pantallas medianas (tablets) */
+@media (min-width: 577px) and (max-width: 991px) {
+    .carousel-logo-img {
+        width: 70px;
+        height: 70px;
+    }
+    .carousel-description h5 {
+        font-size: 1.3rem;
+    }
+    .carousel-description p {
+        font-size: 0.95rem;
+    }
+}
+
+/* --- Estilos para el Modal de Oferta --- */
+#offerModal .modal-header {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.9), rgba(102, 16, 242, 0.9)); /* Tu degradado de acento */
+    color: white;
+    border-bottom: none;
+}
+
+#offerModal .modal-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+#offerModal .btn-close {
+    filter: invert(1); /* Hace que la X de cerrar sea blanca */
+}
+
+#offerModal .modal-body {
+    padding: 2rem;
+}
+
+#offerModal .modal-body p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#offerModal .modal-body .form-control {
+    border-radius: 0.375rem 0 0 0.375rem; /* Bordes de Bootstrap por defecto */
+    border-color: #ced4da; /* Color de borde predeterminado */
+}
+
+#offerModal .modal-body .btn-primary {
+    background-color: #ff9800; /* Tu color de acento */
+    border-color: #ff9800;
+    border-radius: 0 0.375rem 0.375rem 0; /* Bordes redondeados a la derecha */
+    font-weight: bold;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+}
+
+#offerModal .modal-body .btn-primary:hover {
+    background-color: #e68a00; /* Tono más oscuro al pasar el ratón */
+    border-color: #e68a00;
+}
+
+/* Ajuste para móviles: apilar input y botón */
+@media (max-width: 576px) {
+    #offerModal .modal-body .input-group {
+        flex-direction: column;
+    }
+    #offerModal .modal-body .form-control,
+    #offerModal .modal-body .btn-primary {
+        width: 100%;
+        border-radius: 0.375rem !important; /* Bordes redondeados completos */
+        margin-bottom: 0.5rem;
+    }
+    #offerModal .modal-body .btn-primary {
+        margin-bottom: 0; /* Eliminar margen inferior si es el último */
+    }
+}
+
+/* --- Sección de Información de Contacto y Redes Sociales --- */
+#contact-info {
+    /* bg-dark y text-white de Bootstrap ya le dan un buen fondo y color de texto */
+    color: #f8f9fa; /* Asegura un blanco suave para el texto */
+}
+
+#contact-info h4 {
+    color: #ff9800; /* Un color de acento para los títulos (puede ser el de tu navbar) */
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+#contact-info p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+}
+
+#contact-info p i {
+    font-size: 1.1rem;
+    vertical-align: middle; /* Alinea el icono con el texto */
+}
+
+/* Estilos para los iconos de redes sociales */
+.social-icons {
+    display: flex;
+    justify-content: center; /* Centra los iconos en móvil */
+    margin-top: 1rem;
+}
+
+.social-icon {
+    font-size: 2rem; /* Tamaño grande para los iconos */
+    color: #fff; /* Color blanco para los iconos */
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
+
+.social-icon:hover {
+    color: #ff9800; /* Color de acento al pasar el ratón */
+    transform: translateY(-3px); /* Pequeño efecto de elevación */
+}
+
+/* Estilos para el contenedor del mapa */
+.map-container {
+    border-radius: 10px;
+    overflow: hidden; /* Asegura que el iframe no se salga de los bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* --- Ajustes Responsive para la Sección de Contacto --- */
+@media (max-width: 767px) {
+    #contact-info .text-md-start {
+        text-align: center !important; /* Centra el texto en móviles */
+    }
+    .social-icons {
+        justify-content: center; /* Asegura que los iconos estén centrados */
+    }
+    #contact-info h4 {
+        margin-top: 1.5rem; /* Espacio superior para títulos en móviles */
+    }
+}
+
+/* No se necesitan reglas específicas para pantallas grandes para el tamaño del logo
+   ya que el tamaño fijo lo maneja bien. Si la imagen de fondo necesita ajustes, se harían aquí. */
+
+/* ===== Botón admin ===== */
+.admin-btn {
+   
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s;
+    z-index: 1000;
+}
+
+.admin-btn:hover {
+    background: #444;
+}
+
+/* ===== Navbar ===== */
+.navbar-custom {
+    background-color: #222;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    /* No necesitas position: fixed aquí, la clase fixed-top de Bootstrap ya lo hace */
+}
+
+.navbar-custom .nav-link {
+    color: white !important; /* Usamos !important para asegurar que sobrescribe estilos de Bootstrap */
+    font-weight: 500;
+    margin: 0 8px;
+    transition: color 0.3s;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ff9800 !important;
+}
+
+.login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+/* ===== Compensación para Navbar Fijo ===== */
+
+
+
+/* ===== Tienda / Productos ===== */
+.store-section {
+    padding: 2rem 1rem;
+}
+
+/* ===== Tarjetas de Producto ===== */
+.card.product-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Animación de aparición de las tarjetas de producto */
+.product-card.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+}
+
+.card.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Imágenes de los productos en las tarjetas (Reglas base para escritorio) */
+#product-list .card-img-top.product-card-img {
+    width: 90% !important; /* <--- MODIFICADO: Imagen al 90% del ancho del padre */
+    height: auto !important;
+    max-height: 200px;
+    object-fit: cover !important;
+    display: block !important;
+    margin: 0 auto; /* Centra la imagen al 90% */
+    padding-top: 10px; /* Opcional: añade un poco de espacio superior si el diseño lo necesita */
+}
+
+/* Estilos para el botón dentro de la tarjeta */
+.product-card .btn {
+    border-radius: 20px;
+}
+
+/* --- Ajustes para dispositivos pequeños (móviles) --- */
+@media (max-width: 576px) {
+    #product-list .card-img-top.product-card-img {
+        max-height: 120px !important; /* Mantiene la altura máxima para móviles */
+        width: 90% !important; /* Mantiene el 90% también en móviles */
+        padding-top: 5px; /* Ajusta el padding para móviles si es necesario */
+    }
+}
+
+/* ===== Footer ===== */
+footer {
+    background-color: #222;
+    color: #ccc;
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* ===== Chatbot flotante (Modo Oscuro Transparente) ===== */
+.chatbot-toggler {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.85), rgba(102, 16, 242, 0.85));
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    z-index: 999;
+    transition: transform 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(6px); /* Efecto de desenfoque detrás del elemento */
+}
+
+.chatbot-toggler:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.chatbot-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    background: rgba(30, 30, 46, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    display: none; /* Controlado por JavaScript para mostrar/ocultar */
+    flex-direction: column;
+    z-index: 998;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+}
+
+.chatbot-header {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.85), rgba(102, 16, 242, 0.85));
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+}
+
+.chatbot-messages {
+    padding: 15px;
+    height: 220px;
+    overflow-y: auto;
+    color: #f5f5f5;
+    font-size: 14px;
+    background: rgba(43, 43, 60, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.chatbot-options {
+    background: rgba(30, 30, 46, 0.8);
+    padding: 10px;
+    backdrop-filter: blur(6px);
+}
+
+.chatbot-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 6px;
+    background: rgba(43, 43, 60, 0.6);
+    color: #f0f0f0;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.chatbot-options button:hover {
+    background: rgba(56, 56, 80, 0.7);
+    transform: translateY(-2px);
+}
+
+/* Animación de entrada para el chatbot */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
